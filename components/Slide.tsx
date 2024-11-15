@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     dot: {
-        backgroundColor: 'red',
+        borderWidth: 1,
+        borderColor: 'white',
         width: 8,
         height: 8,
         borderRadius: 4,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         marginBottom: 3,
     },
     activeDot: {
-        backgroundColor: 'black',
+        backgroundColor: 'yellow',
         width: 10,
         height: 10,
         borderRadius: 6,
