@@ -81,16 +81,6 @@ const HomeScreen = () => {
                 <ScrollView style={style.container}>
                     <Button title="Ve lai trang login" onPress={() => navigation.navigate('login')} />
 
-                    {/* Tim kiem san pham */}
-                    <View style={style.searchBar}>
-                        <TouchableOpacity onPress={handleSearch}>
-                            <Ionicons name="search" size={24} color="gray" />
-                        </TouchableOpacity>
-                        <TextInput placeholder="Tìm kiếm tại đây..." value={search} onChangeText={(data) => setSearch(data)}></TextInput>
-                        <Text>{search}</Text>
-                    </View>
-                    {/* Ket thuc tim kiem san pham */}
-
                     {/* Slide anh */}
                     <View style={style.slide}>
                         <Slide />
@@ -210,14 +200,8 @@ const HomeScreen = () => {
 const style = StyleSheet.create({
     container: {
         height: "100%",
-        borderWidth: 2,
-        borderColor: "black",
-    },
-    searchBar: {
-        borderBottomColor: "red",
-        borderBottomWidth: 2,
-        display: "flex",
-        flexDirection: "row",
+        backgroundColor: "#ccc",
+        padding: 10,
     },
     slide: {
         borderWidth: 2,

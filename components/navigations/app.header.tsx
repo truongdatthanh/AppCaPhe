@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, Button, Image } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
@@ -16,17 +16,11 @@ const AppHeader = () => {
     return (
         <View>
             <View style={style.container}>
-                {/* Header */}
-                <View style={style.headerBar}>
-                    <View style={style.headerDrawer}>
-                        <Feather name="menu" size={30} color="black" onPress={() => { navigation.openDrawer() }} />
-                    </View>
-                    <View style={style.headerContent}>
-                        <Text style={style.headerText}> HELLO </Text>
-                    </View>
+                <View>
+                    <TouchableOpacity onPress={() => navigation.navigate("profile")}>
+                        <Image source={require("../../assets/img/gaixinh2.jpg")} style={{ width: 60, height: 60, borderRadius: 30}} />
+                    </TouchableOpacity>
                 </View>
-
-                {/* Search bar */}
                 <View>
                     <View style={style.searchBar}>
                         <TouchableOpacity onPress={handleSearch}>
@@ -44,10 +38,12 @@ const AppHeader = () => {
 
 const style = StyleSheet.create({
     container: {
-        backgroundColor: '#ccc',
-        paddingHorizontal: 5,
-        paddingVertical: 10,
-        paddingTop: 45,
+        height: 80,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: '#fff',
+        paddingHorizontal: 10,
     },
     headerBar: {
         borderWidth: 1,
@@ -56,10 +52,6 @@ const style = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         padding: 10,
-    },
-    headerDrawer: {
-        borderWidth: 1,
-        borderColor: "red",
     },
     headerContent: {
         flex: 0.9,
