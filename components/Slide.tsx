@@ -1,8 +1,8 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Swiper from 'react-native-swiper';
-import image from '../assets/img/gaixinh2.jpg';
-import image1 from '../assets/img/gaixinh.jpg';
+import image from '../assets/img/caphe1.jpg';
+
 
 export default () => (
     <Swiper style={styles.wrapper}
@@ -17,7 +17,7 @@ export default () => (
             <Image style={styles.image} source={image} resizeMode='cover' />
         </View>
         <View style={styles.slide}>
-            <Image style={styles.image} source={image1} resizeMode='repeat' />
+            <Image style={styles.image} source={image} resizeMode='repeat' />
         </View>
         <View style={styles.slide}>
             <Image style={styles.image} source={image} resizeMode='stretch' />

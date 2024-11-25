@@ -18,7 +18,7 @@ const AppHeader = () => {
             <View style={style.container}>
                 <View>
                     <TouchableOpacity onPress={() => navigation.navigate("profile")}>
-                        <Image source={require("../../assets/img/gaixinh2.jpg")} style={{ width: 60, height: 60, borderRadius: 30}} />
+                        <Image source={require("../../assets/img/caphe1.jpg")} style={{ width: 60, height: 60, borderRadius: 30}} />
                     </TouchableOpacity>
                 </View>
                 <View>
@@ -26,7 +26,7 @@ const AppHeader = () => {
                         <TouchableOpacity onPress={handleSearch}>
                             <Ionicons name="search" size={24} color="gray" />
                         </TouchableOpacity>
-                        <TextInput placeholder="Tim kiem tai day..." value={search} onChangeText={(data) => setSearch(data)} />
+                        <TextInput placeholder="Tim kiem tai day" value={search} onChangeText={(data) => setSearch(data)} />
                     </View>
                 </View>
 
@@ -44,7 +44,9 @@ const style = StyleSheet.create({
         justifyContent: "space-between",
         backgroundColor: '#fff',
         paddingHorizontal: 10,
-    },
+        borderBottomWidth: 1,
+        borderColor: "black",
+    }, 
     headerBar: {
         borderWidth: 1,
         borderColor: "red",
