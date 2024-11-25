@@ -2,19 +2,20 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
+import { caphe } from '../services/caphe.service';
 
 const RegisterScreen = () => {
-    const [firstName, setFirstName] = useState('Trương Thành');
-    const [lastName, setLastName] = useState('Đạt');
+    const [username, setUserName] = useState('dattruong');
+    const [name, setName] = useState('Trương Thành Đạt');
     const [email, setEmail] = useState('truongdatzzz612@gmail.com');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [password, setPassword] = useState('12345678');
+    const [confirmPassword, setConfirmPassword] = useState('12345678');
     const [phoneNumber, setPhoneNumber] = useState('0943369278');
     const [showPassword, setShowPassword] = useState(true);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(true);
+    const [ showConfirmPassword, setShowConfirmPassword ] = useState( true );
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
 
-    const [lastNameError, setLastNameError] = useState('');
+    const [NameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
@@ -23,18 +24,17 @@ const RegisterScreen = () => {
     const isPhoneNumberValid = (phone: string) => /^[0-9]+$/.test(phone);
     const isEmailValid = (email: string) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         // Đặt lại thông báo lỗi
-
-        setLastNameError('');
+        setNameError('');
         setEmailError('');
         setPasswordError('');
         setConfirmPasswordError('');
         setPhoneNumberError('');
 
         // Kiểm tra từng trường hợp và hiển thị lỗi nếu có
-        if (!lastName) {
-            setLastNameError('Tên không được để trống');
+        if (!name) {
+            setNameError('Tên không được để trống');
             return;
         }
         if (!email) {
@@ -74,10 +74,10 @@ const RegisterScreen = () => {
             return;
         }
 
-        if (firstName && lastName && email && password && confirmPassword && phoneNumber) {
+        if (name && username && email && password && confirmPassword && phoneNumber) {
             Alert.alert(
                 "Đăng ký thành công",
-                `Chào mừng, ${email}`,
+                `Chào mừng, ${username}`,
                 [{
                     text: "OK",
                     onPress: () => setTimeout(() => navigation.navigate('login'), 100)
@@ -87,6 +87,10 @@ const RegisterScreen = () => {
         else {
             Alert.alert("Lỗi", "Vui lòng điền đầy đủ thông tin!");
         }
+
+        const response = await caphe.postRegister( { name, username, email, password, phoneNumber, avatar: '', address: ''} );
+        console.log( response.data );
+
     };
 
     const handleLogin = () => {
@@ -100,20 +104,20 @@ const RegisterScreen = () => {
             <View>
                 <TextInput
                     style={styles.input}
-                    placeholder="Họ"
-                    value={firstName}
-                    onChangeText={setFirstName}
+                    placeholder="Họ Tên"
+                    value={name}
+                    onChangeText={setName}
                     placeholderTextColor={'gray'}
                 />
             </View>
 
             <View>
-                <Text style={styles.errorText}>{lastNameError}</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Tên"
-                    value={lastName}
-                    onChangeText={setLastName}
+                    placeholder="Tên đăng nhập"
+                    value={username}
+                    onChangeText={ setUserName }
+                    placeholderTextColor={'gray'}
                 />
             </View>
 

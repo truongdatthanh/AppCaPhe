@@ -1,11 +1,11 @@
 type RootStackParamList = {
-    home: undefined;
-    about:  undefined;
-    login: undefined;
-    register: undefined;
-    profile: undefined;
-    detail: {id: number, name: string, category: string} ;
-    cart: {id: number, name: string, category: string} ;
+  home: { name: string } | undefined;
+  about: undefined;
+  login: undefined;
+  register: undefined;
+  profile: undefined;
+  detail: { _id: string; name: string; image: string; description: string; price: number; categoryId: string } | undefined;
+  cart: { _id: string; name: string; image: string; description: string; price: number; categoryId: string } | undefined;
 };
 
-declare module "*.jpg"
+declare module "*.jpg";

@@ -17,7 +17,7 @@ const ProfileScreen = () => {
             />
             <View style={style.header}>
                 <View style={style.headerAvatar}>
-                    <Image style={style.headerAvatarImage} source={require("../assets/img/gaixinh.jpg")}></Image>
+                    <Image style={style.headerAvatarImage} source={require("../assets/img/caphe1.jpg")}></Image>
                 </View>
                 <View style={style.headerRole}>
                     <Text style={style.headerRoleText}>THÀNH VIÊN</Text>
