@@ -7,11 +7,11 @@ import { Button, StyleSheet, Text, View } from "react-native";
 
 const DetailScreen = () => {
 
-    const handleAddToCart = (item: { id: number, name: string, category: string }) => {
+    const handleAddToCart = (item:  {_id: string, name: string, category: string}) => {
         navigation.navigate('cart', { ...product });
     }
 
-    const [cartItems, setCartItems] = useState([]);
+    
 
 
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
@@ -27,7 +27,7 @@ const DetailScreen = () => {
             <Text>Hình ảnh: {product?.image }</Text>
             <Text>Mô tả: {product?.description }</Text>
             <Text>Giá bán: {product?.price }</Text>
-            <Button title="Thêm vào giỏ hàng" onPress={() => handleAddToCart({ id: parseInt(product._id), name: product.name, category: product.categoryId })} />
+            <Button title="Thêm vào giỏ hàng" onPress={() => handleAddToCart({ _id: product._id, name: product.name, category: product.categoryId })} />
             <Button title="Go to home" onPress={() => navigation.goBack()} />
         </View>
     )

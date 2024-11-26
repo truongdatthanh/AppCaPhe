@@ -33,9 +33,9 @@ const ProfileScreen = () => {
                 </View>
 
                 <View>
-                    <View>
-                        <TextInput style={style.input} placeholder="Họ và Tên Lót" />
-                        <TextInput style={style.input} placeholder="Tên" />
+                    <View style={style.inputName}>
+                        <TextInput style={[style.input, {flex: 1, marginHorizontal: 10}]} placeholder="Họ và Tên Lót" />
+                        <TextInput style={[style.input, {flex: 1, marginHorizontal: 10}]} placeholder="Tên" />
                     </View>
 
                     <View>
@@ -108,6 +108,11 @@ const style = StyleSheet.create({
         alignItems: "center",
         marginBottom: 12,
     },
+    inputName: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "auto"
+    }
 })
 
 export default ProfileScreen;

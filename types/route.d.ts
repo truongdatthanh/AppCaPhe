@@ -1,5 +1,6 @@
 type RootStackParamList = {
   home: { name: string } | undefined;
+  home2: undefined;
   about: undefined;
   login: undefined;
   register: undefined;

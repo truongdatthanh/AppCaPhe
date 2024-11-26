@@ -1,8 +1,14 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Button, Alert } from 'react-native';
 
-const CartScreen = ({ navigation }: any) => {
+const CartScreen = ( ) =>
+{
+  
+  
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
+  const route: RouteProp<RootStackParamList, "cart"> = useRoute();
+  const product = route.params ?? {_id: "", name: "", categoryId: "", image: "", description: "", price: 0};
   // const [cartItems, setCartItems] = useState([]);
   // const route: RouteProp<RootStackParamList, "cart"> = useRoute();
   // const product = route.params ?? {};
