@@ -20,4 +20,9 @@ export const caphe = {
     postRegister: (data: any) => {
         return https.post("/user/register", data);
     },
+
+    getLoginGoogle: () => {
+        return https.post("/app/google");
+    }
+
 }

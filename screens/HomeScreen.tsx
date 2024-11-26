@@ -6,7 +6,8 @@ import Slide from "../components/Slide";
 import { caphe } from "../services/caphe.service";
 
 
-interface IProduct {
+interface IProduct
+{
     _id: string;
     name: string;
     image: string;
@@ -15,30 +16,39 @@ interface IProduct {
     categoryId: string;
 }
 
-const HomeScreen = () => {
-    const [product, setProduct] = useState<IProduct[]>([]);
-    useEffect(() => {
-        caphe.getProducts().then((res: any) => {
-            setProduct(res.data);
-            console.log(res.data);
-        })
-    }, [])
+const HomeScreen = () =>
+{
+    const [ product, setProduct ] = useState<IProduct[]>( [] );
+    useEffect( () =>
+    {
+        caphe.getProducts().then( ( res: any ) =>
+        {
+            setProduct( res.data );
+            // console.log( res.data );
+        } )
+    }, [] )
 
-    const [categories, setCategories] = useState([]);
-    useEffect(() => {
-        caphe.getCategories().then((res: any) => {
-            setCategories(res.data);
-            console.log(res.data);
-        })
-    }, [])
+    const [ categories, setCategories ] = useState( [] );
+    useEffect( () =>
+    {
+        caphe.getCategories().then( ( res: any ) =>
+        {
+            setCategories( res.data );
+            // console.log( res.data );
+        } )
+    }, [] )
 
     const [ selectedCategory, setSelectedCategory ] = useState( "All" );
 
-    const category = [{ _id: "All", name: "All" }, ...categories];
-
+    const category = [ { _id: "All", name: "All" }, ...categories ];
+    useEffect( () =>
+    {
+        console.log( selectedCategory )
+    }, [ selectedCategory ] );
+    
     const filteredProducts = selectedCategory === "All" ? product : product.filter( product => product.categoryId === selectedCategory );
     console.log( selectedCategory )
-    
+
     // const handleSave = async (data: any) => {
     //     try {
     //         const response = await caphe.createProduct(data);
@@ -49,13 +59,24 @@ const HomeScreen = () => {
 
     // }
 
+    // const handleLogin = async (data: any) => {
+    // const handleLoginGoogle = async () =>
+    // { 
+    //     try {
+    //         const response = await caphe.getLoginGoogle();
+    //         console.log('Data saved:', response.data);
+    //     } catch (error) {
+    //         console.error('Error saving data:', error);
+    //     }
+    // }
+
+
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
 
     return (
         <>
             <GestureHandlerRootView>
-                <ScrollView style={style.container}>
-
+                <ScrollView style={ style.container }>
                     {/* <View>
                         {product.map((item: any) => (
                             <TouchableOpacity key={item._id} onPress={() => alert("edit")}>
@@ -80,46 +101,54 @@ const HomeScreen = () => {
                     </View> */}
 
 
-                    {/* Slide anh */}
-                    <View style={style.slide}>
+                    {/* Slide anh */ }
+                    <View style={ style.slide }>
                         <Slide />
                     </View>
-                    {/* Ket thuc slide anh */}
+                    {/* Ket thuc slide anh */ }
 
-                    {/* Banner */}
+                    {/* Banner */ }
                     <Text>Các sản phẩm nổi bật</Text>
-                    <View style={style.banner}>
+                    <View style={ style.banner }>
                         <Slide />
                     </View>
-                    {/* Ket thuc banner */}
+                    {/* Ket thuc banner */ }
 
-                    
+
                     {/* Danh muc */ }
-                    <View style={style.categories}>
-                        {category.map((category: any) => (
-                            <TouchableOpacity key={ category._id } style={ [ style.categoryButton, selectedCategory === category._id  && style.selectedCategory ] }
+                    <View style={ style.categories }>
+                        { category.map( ( category: any ) => (
+                            <TouchableOpacity key={ category._id } style={ [ style.categoryButton, selectedCategory === category._id && style.selectedCategory ] }
                                 onPress={ () => setSelectedCategory( category._id ) }>
-                                <Text style={style.categoryText}>{category.name}</Text>
+                                <Text style={ style.categoryText }>{ category.name }</Text>
                             </TouchableOpacity>
-                        ))}
+                        ) ) }
                     </View>
 
-                    <ScrollView horizontal={true} style={style.scrollContainer} showsHorizontalScrollIndicator={false}>
-                        {filteredProducts.map((product) => (
-                            <TouchableOpacity key={product._id} style={style.productContainer} onPress={() => navigation.navigate("detail", product)}>
-                                <Image source={{ uri: product.image }} style={style.productImage} />
-                                <Text style={style.productName}>Tên sản phẩm: {product.name}</Text>
-                                <Text>Mô tả: {product.description}</Text>
-                                <Text>Giá: {product.price}</Text>
-                                {/* <Text>{product.categoryId}</Text> */}
+                    <ScrollView horizontal={ false } style={ style.scrollContainer } showsHorizontalScrollIndicator={ false }>
+                        { filteredProducts.map( ( product ) => (
+                            <TouchableOpacity key={ product._id } style={ style.productContainer } onPress={ () => navigation.navigate( "detail", product ) }>
+                                <View style={ { flexDirection: "row" } }>
+                                    <Image source={ { uri: product.image } } style={ style.productImage } />
+                                    <View style={ style.titleItem }>
+                                        <View style={ style.titleName }>
+                                            <Text style={ style.productName }>{ product.name }</Text>
+                                            <Text>Mô tả: { product.description } ashdghasgdhjasgdhj</Text>
+                                        </View>
+                                    </View>
+                                </View>
+
+                                <Text style={ style.productPrice }>{ product.price }.000D</Text>
+
+                                {/* <Text>{product.categoryId}</Text> */ }
                             </TouchableOpacity>
-                        ))}
+                        ) ) }
                     </ScrollView>
                     {/* Ket thuc danh muc */ }
-                    
-                    {/* San pham */}
-                    {/* horizontal de kich hoat cuon ngang, ShowsHorizontalScrollIndicator={false}: Neu khong muon hien thi thanh cuon ngang */}
-                    <View id="San pham">
+
+                    {/* San pham */ }
+                    {/* horizontal de kich hoat cuon ngang, ShowsHorizontalScrollIndicator={false}: Neu khong muon hien thi thanh cuon ngang */ }
+                    {/* <View id="San pham">
                         <Text>Danh sach san pham</Text>
                         <ScrollView horizontal={true} style={style.scrollContainer} showsHorizontalScrollIndicator={false}>
                             {product.map((product) => (
@@ -132,8 +161,8 @@ const HomeScreen = () => {
                                 </TouchableOpacity>
                             ))}
                         </ScrollView>
-                    </View>
-                    {/* Ket thuc san pham */}   
+                    </View> */}
+                    {/* Ket thuc san pham */ }
                 </ScrollView>
             </GestureHandlerRootView>
         </>
@@ -141,7 +170,7 @@ const HomeScreen = () => {
     )
 };
 
-const style = StyleSheet.create({
+const style = StyleSheet.create( {
     container: {
         height: "100%",
         backgroundColor: "#ccc",
@@ -164,24 +193,35 @@ const style = StyleSheet.create({
     scrollContainer: {
         padding: 10,
         borderWidth: 1,
-        borderColor: "brown",
+        borderColor: "blue",
     },
     productContainer: {
-        width: 100, // Đặt kích thước cho mỗi sản phẩm
-        alignItems: 'center',
-        marginRight: 10,
+        // width: 100, // Đặt kích thước cho mỗi sản phẩm
+        flexDirection: 'row',
+        marginVertical: 10,
+        borderWidth: 1,
+        borderColor: "blue",
+        justifyContent: 'space-between',
     },
     productImage: {
         width: 100,
         height: 100,
         borderRadius: 10,
         borderWidth: 1,
-        borderColor: 'orange'
+        borderColor: 'orange',
     },
     productName: {
-        marginTop: 5,
-        fontSize: 12,
-        textAlign: 'center',
+        paddingBottom: 10,
+        fontSize: 20,
+        borderWidth: 1,
+        borderColor: 'green',
+        fontWeight: 'bold',
+    },
+    productPrice: {
+        fontSize: 20,
+        borderWidth: 1,
+        borderColor: 'green',
+        fontWeight: 'bold',
     },
 
     reviewItem: {
@@ -205,7 +245,6 @@ const style = StyleSheet.create({
         textAlign: "center",
         fontSize: 25,
     },
-
 
     categories: {
         flexDirection: 'row',
@@ -239,7 +278,20 @@ const style = StyleSheet.create({
         fontSize: 18,
         color: '#333',
     },
-});
+    titleItem: {
+        marginLeft: 10,
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: 'blue',
+
+    },
+    titleName: {
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        borderWidth: 1,
+        borderColor: 'red',
+    },
+} );
 
 
 export default HomeScreen;
