@@ -1,5 +1,6 @@
 import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { Button, Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { RootStackParamList } from "../types/route";
 
 const ProfileScreen = () => {
 
