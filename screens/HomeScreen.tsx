@@ -4,6 +4,8 @@ import { Button, Image, StyleSheet, Text, TextInput, View, TouchableOpacity, Scr
 import { GestureHandlerRootView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Slide from "../components/Slide";
 import { caphe } from "../services/caphe.service";
+import { RootStackParamList } from "../types/route";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 interface IProduct
@@ -18,6 +20,16 @@ interface IProduct
 
 const HomeScreen = () =>
 {
+    const [ userId, setUserId ] = useState( "" );
+    const [ username, setUsername ] = useState( "" );
+    const [ userRole, setUserRole ] = useState( "" );
+
+    useEffect( () =>
+    {
+        AsyncStorage.getItem( 'UserId' ).then( ( value ) => setUserId( value ?? "" ) );
+    }, [] );
+
+
     const [ product, setProduct ] = useState<IProduct[]>( [] );
     useEffect( () =>
     {
@@ -45,9 +57,9 @@ const HomeScreen = () =>
     {
         console.log( selectedCategory )
     }, [ selectedCategory ] );
-    
+
     const filteredProducts = selectedCategory === "All" ? product : product.filter( product => product.categoryId === selectedCategory );
-    console.log( selectedCategory )
+    // console.log( selectedCategory )
 
     // const handleSave = async (data: any) => {
     //     try {

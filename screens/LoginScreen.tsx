@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, StatusBar, Image } from 'react-native';
 import Entypo from '@expo/vector-icons/Entypo';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import iconGoogle from '../assets/img/Google_Icons.jpg';
-import iconFacebook from '../assets/img/Facebook_icon.jpg';
-import axios from 'axios';
+
 import { caphe } from '../services/caphe.service';
+import { RootStackParamList } from '../types/route';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () =>
 {
@@ -20,11 +20,20 @@ const LoginScreen = () =>
         try
         {
             const response = await caphe.postLogin( { username, password } );
-            console.log( response.status );
+            console.log( response.data );
 
             if ( response.status === 200 )
             {
+                const currentUser = response.data.user;
+                console.log( "currentUSer ", currentUser );
                 Alert.alert( 'Đăng nhập thành công!', `Xin chào ${ username }` );
+               
+
+                AsyncStorage.setItem( 'UserId', currentUser._id );
+                AsyncStorage.setItem( 'UserName', currentUser.username );
+                AsyncStorage.setItem( 'UserRole', currentUser.role );
+
+                //Chuyển hướng về trang chủ
                 navigation.navigate( 'home' );
             } else
             {
@@ -38,14 +47,7 @@ const LoginScreen = () =>
         }
     };
 
-    // const handleLogin = () => {
-    //     if (email && password) {
-    //         // Ở đây bạn có thể thêm logic xử lý đăng nhập, chẳng hạn gọi API
-    //         navigation.navigate('home');
-    //     } else {
-    //         Alert.alert("Lỗi", "Vui lòng nhập đầy đủ thông tin!");
-    //     }
-    // };
+
 
     const handleRegister = () =>
     {
@@ -111,14 +113,14 @@ const LoginScreen = () =>
             </View>
 
 
-            <View style={ styles.externalIcon }>
+            {/* <View style={ styles.externalIcon }>
                 <TouchableOpacity style={ styles.icon } onPress={ () => alert( "Google" ) }>
-                    <Image source={ iconGoogle } style={ styles.iconImage } />
+                    <Image source={ require( '../assets/img/' ) } style={ styles.iconImage } />
                 </TouchableOpacity>
                 <TouchableOpacity style={ styles.icon } onPress={ () => alert( "Facebook" ) }>
-                    <Image source={ iconFacebook } style={ styles.iconImage } />
+                    <Image source={ require('../assets/img/Facebook_icon.jpg')} style={ styles.iconImage } />
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             <View style={ styles.registerContainer }>
                 <View style={ styles.register } >
