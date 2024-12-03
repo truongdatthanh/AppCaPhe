@@ -9,11 +9,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import LoginScreen from './screens/LoginScreen';
 
 
-export default function App() {
+export default function App ()
+{
   return (
-    <NavigationContainer>
-      <AppNavigation />
-    </NavigationContainer>
+    <SafeAreaView style={ { flex: 1}}>
+      <NavigationContainer>
+        <AppNavigation />
+      </NavigationContainer>
+    </SafeAreaView>
+
 
 
     /* SafeAfreaView dung de chia lai layout giua body va status bar cua thiet bi*/

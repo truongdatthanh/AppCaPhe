@@ -1,84 +1,67 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import DetailScreen from "../../screens/DetailScreen";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import AppHeader from "./app.header";
 import HomeScreen from "../../screens/HomeScreen";
 import LoginScreen from "../../screens/LoginScreen";
 import RegisterScreen from "../../screens/RegisterScreen";
-import About from "../../screens/AboutScreen";
 import ProfileScreen from "../../screens/ProfileScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CartScreen from "../../screens/CartScreen";
 import { useState } from "react";
-import { View } from "react-native";
+import { RootStackParamList } from "../../types/route";
+import CheckoutScreen from "../../screens/CheckoutScreen";
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const BottomTab = createBottomTabNavigator();
 
-const HomeLayout = () => {
+const HomeLayout = () =>
+{
     return (
-        // <Stack.Navigator initialRouteName="home">
-        //     <Stack.Screen name="home" component={HomeScreen} options={{ header: () => <AppHeader /> }} />
-        //     <Stack.Screen name="detail" component={DetailScreen} options={{ title: 'Chi tiết' }} />
-        //     <Stack.Screen name="profile" component={MyBottomTab} options={{title: 'Trang ca nhan'}}/>
-        // </Stack.Navigator>
         <BottomTab.Navigator>
-            <BottomTab.Screen name="home1" component={MyStack} options={{ headerShown: false }} />
-            <BottomTab.Screen name="profile" component={ProfileScreen} />
-            <BottomTab.Screen name="cart" component={CartScreen} options={{ title: 'gio hang' }}/>
+            <BottomTab.Screen name="home1" component={ MyStack } options={ { headerShown: false } } />
+            <BottomTab.Screen name="cart" component={ CartScreen } options={ { title: 'gio hang', headerShown: false } } />
+            <BottomTab.Screen name="profile" component={ ProfileScreen } />
         </BottomTab.Navigator>
     )
 };
 
-// const MyBottomTab = () => {
-//     return (
 
-//     )
-// }
-
-const MyStack = () => {
+const MyStack = () =>
+{
     return (
-        <Stack.Navigator initialRouteName="home">
-            <Stack.Screen name="home2" component={HomeScreen} options={{ header: () => <AppHeader /> }} />
-            <Stack.Screen name="detail" component={DetailScreen} options={{ title: 'Chi tiết' }} />
-            <Stack.Screen name="profile" component={ProfileScreen} options={{ title: 'Trang ca nhan' }} />
-            <Stack.Screen name="cart" component={CartScreen} options={{ title: 'gio hang' }} />
+        <Stack.Navigator >
+            <Stack.Screen name="home2" component={ HomeScreen } options={ { header: () => <AppHeader /> } } />
+            <Stack.Screen name="detail" component={ DetailScreen } options={ { title: 'Chi tiết', headerShown: false } } />
+            <Stack.Screen name="profile" component={ ProfileScreen } options={ { title: 'Trang ca nhan' } } />
+            <Stack.Screen name="cart" component={ CartScreen } options={ { title: 'gio hang',  headerShown: false } } />
+            <Stack.Screen name="checkout" component={ CheckoutScreen } options={ { title: 'thanh toan' } } />
         </Stack.Navigator>
     )
 }
 
-// const HomeDrawer = () => {
-//     return(
-//          <Drawer.Navigator initialRouteName="home"
-//         // screenOptions={{ headerShown: false }}
-//         >
-//             <Drawer.Screen name="home" component={HomeLayout} options={{ title: 'Trang chủ', header: () => <></> }} />
-//             <Drawer.Screen name="about" component={About} options={{ title: 'Thông tin', header: () => <AppHeader /> }} />
-//             {/* <Drawer.Screen name="detail" component={DetailScreen}/> */}
-//         </Drawer.Navigator>
-//     )
-// }
 
-const AppNavigation = () => {
+const AppNavigation = () =>
+{
 
-    const [isSignIn, setIsSignIn] = useState(false);
+    const [ isSignIn, setIsSignIn ] = useState( true );
 
     return (
         <Stack.Navigator
-            screenOptions={{ headerShown: false }}
+            screenOptions={ { headerShown: false } }
         >
             {
                 isSignIn ? (
                     <Stack.Group>
-                        <Stack.Screen name="home" component={HomeLayout} />
+                        <Stack.Screen name="home" component={ HomeLayout } />
+                        {/* <Stack.Screen name="detail" component={ DetailScreen } /> */}
                     </Stack.Group>
 
                 ) : (
                     <Stack.Group>
-                        <Stack.Screen name="login" component={LoginScreen} />
-                        <Stack.Screen name="register" component={RegisterScreen} />
-                        <Stack.Screen name="home" component={HomeLayout} />
+                        <Stack.Screen name="login" component={ LoginScreen } />
+                        <Stack.Screen name="register" component={ RegisterScreen } />
+                        <Stack.Screen name="home" component={ HomeLayout } />
                     </Stack.Group>
                 )
             }
@@ -87,3 +70,4 @@ const AppNavigation = () => {
 };
 
 export default AppNavigation;
+

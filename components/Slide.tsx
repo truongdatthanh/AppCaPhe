@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Swiper from 'react-native-swiper';
-import image from '../assets/img/caphe1.jpg';
+import image from '../assets/img/caphe1.jpg'; 
 
 
 export default () => (
@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     },
     activeDot: {
         backgroundColor: 'yellow',
-        width: 10,
+        width: 20,
         height: 10,
-        borderRadius: 6,
+        borderRadius: 4,
         marginLeft: 3,
         marginRight: 3,
         marginTop: 3,

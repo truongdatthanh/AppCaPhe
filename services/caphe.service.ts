@@ -25,15 +25,28 @@ export const caphe = {
     return https.post("/app/google");
   },
 
-  getCart: async (userId: String) => {
-    return await https.get(`/cart/${userId}`);
+  getCart: (userId: string) => {
+    return https.get("/cart/" + userId);  
   },
 
   addToCart: async (userId: String, productId: String, quantity: number) => {
     return await https.post("/cart/add", { userId, productId, quantity });
-    },
-  
+  },
+
   removeFromCart: async (userId: String, productId: String) => {
-    return await https.post("/cart/remove", { userId, productId });
-  }
+    return await https.delete(`/cart/remove/${userId}/${productId}`);
+  },
+
+  clearCart: async (userId: String) => {
+    return await https.delete(`/cart/clear/${userId}`);
+  },
+
+  getProductByNames: (name: string) => {
+    return https.get("/product/get-product-by-name/" + name);
+  },
+
+  getProductById: ( id: string ) =>
+  {
+    return https.get( "/product/get-product-by-id/" + id );
+  },
 };
