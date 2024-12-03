@@ -7,21 +7,23 @@ export type RootStackParamList = {
   profile: undefined;
   detail: ProductDetail;
   cart: CartItem;
+  checkout: undefined;
 };
 
 type CartItem = {
   userId: string;
   productId: string;
-  productName: string;
-  price: number;
+  // name: string;
+  // price: number;
 };
 
 type ProductDetail = {
   _id: string;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-  categoryId: string;
+  // name: string;
+  // image: string;
+  // description: string;
+  // price: number;
+  // categoryId: string;
 };
 
+declare module "*.jpg";

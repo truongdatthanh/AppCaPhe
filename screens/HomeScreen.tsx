@@ -36,7 +36,6 @@ const HomeScreen = () =>
         caphe.getProducts().then( ( res: any ) =>
         {
             setProduct( res.data );
-            // console.log( res.data );
         } )
     }, [] )
 
@@ -46,7 +45,6 @@ const HomeScreen = () =>
         caphe.getCategories().then( ( res: any ) =>
         {
             setCategories( res.data );
-            // console.log( res.data );
         } )
     }, [] )
 
@@ -59,28 +57,7 @@ const HomeScreen = () =>
     }, [ selectedCategory ] );
 
     const filteredProducts = selectedCategory === "All" ? product : product.filter( product => product.categoryId === selectedCategory );
-    // console.log( selectedCategory )
 
-    // const handleSave = async (data: any) => {
-    //     try {
-    //         const response = await caphe.createProduct(data);
-    //         console.log('Data saved:', response.data);
-    //     } catch (error) {
-    //         console.error('Error saving data:', error);
-    //     }
-
-    // }
-
-    // const handleLogin = async (data: any) => {
-    // const handleLoginGoogle = async () =>
-    // { 
-    //     try {
-    //         const response = await caphe.getLoginGoogle();
-    //         console.log('Data saved:', response.data);
-    //     } catch (error) {
-    //         console.error('Error saving data:', error);
-    //     }
-    // }
 
 
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
@@ -88,31 +65,10 @@ const HomeScreen = () =>
     return (
         <>
             <GestureHandlerRootView>
-                <ScrollView style={ style.container }>
-                    {/* <View>
-                        {product.map((item: any) => (
-                            <TouchableOpacity key={item._id} onPress={() => alert("edit")}>
-                                <Text>{item._id}</Text>
-                                <Text>{item.name}</Text>
-                                <Text>{ item.description }</Text>
-                                <Text>{item.price}</Text>
-                                <Text>{item.categoryId}</Text>
-                                <Image source={{ uri: item.image }} style={{ width: 10, height: 10 }}></Image>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-
-
-                    <View>
-                        {categories.map((item: any) => (
-                            <View key={item._id}>
-                                <Text>{item._id}</Text>
-                                <Text>{item.name}</Text>
-                            </View>
-                        ))}
-                    </View> */}
-
-
+                <ScrollView contentContainerStyle={ style.container }>
+                    <Image source={ { uri: "https://product.hstatic.net/1000075078/product/1639377797_ca-phe-den-da_6f4766ec0f8b4e929a8d916ae3c13254.jpg" } } style={{height: 100, width: 100}} />
+                    
+                   
                     {/* Slide anh */ }
                     <View style={ style.slide }>
                         <Slide />
@@ -139,42 +95,21 @@ const HomeScreen = () =>
 
                     <ScrollView horizontal={ false } style={ style.scrollContainer } showsHorizontalScrollIndicator={ false }>
                         { filteredProducts.map( ( product ) => (
-                            <TouchableOpacity key={ product._id } style={ style.productContainer } onPress={ () => navigation.navigate( "detail", product ) }>
+                            <TouchableOpacity key={ product._id } style={ style.productContainer } onPress={ () => navigation.navigate( "detail", { _id: product._id } ) }>
                                 <View style={ { flexDirection: "row" } }>
                                     <Image source={ { uri: product.image } } style={ style.productImage } />
                                     <View style={ style.titleItem }>
                                         <View style={ style.titleName }>
                                             <Text style={ style.productName }>{ product.name }</Text>
-                                            <Text>Mô tả: { product.description } ashdghasgdhjasgdhj</Text>
+                                            <Text>Mô tả: { product.description }</Text>
                                         </View>
                                     </View>
                                 </View>
-
                                 <Text style={ style.productPrice }>{ product.price }.000D</Text>
-
-                                {/* <Text>{product.categoryId}</Text> */ }
                             </TouchableOpacity>
                         ) ) }
                     </ScrollView>
                     {/* Ket thuc danh muc */ }
-
-                    {/* San pham */ }
-                    {/* horizontal de kich hoat cuon ngang, ShowsHorizontalScrollIndicator={false}: Neu khong muon hien thi thanh cuon ngang */ }
-                    {/* <View id="San pham">
-                        <Text>Danh sach san pham</Text>
-                        <ScrollView horizontal={true} style={style.scrollContainer} showsHorizontalScrollIndicator={false}>
-                            {product.map((product) => (
-                                <TouchableOpacity key={product._id} style={style.productContainer} onPress={() => navigation.navigate("detail", product)}>
-                                    <Image source={{ uri: product.image }} style={style.productImage} />
-                                    <Text style={style.productName}>{product.name}</Text>
-                                    <Text>{product.description}</Text>
-                                    <Text>{product.price}</Text>
-                                    <Text>{product.categoryId}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </ScrollView>
-                    </View> */}
-                    {/* Ket thuc san pham */ }
                 </ScrollView>
             </GestureHandlerRootView>
         </>
@@ -184,7 +119,6 @@ const HomeScreen = () =>
 
 const style = StyleSheet.create( {
     container: {
-        height: "100%",
         backgroundColor: "#ccc",
         padding: 10,
     },

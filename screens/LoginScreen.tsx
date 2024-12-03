@@ -9,8 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () =>
 {
-    const [ username, setUsername ] = useState( '' );
-    const [ password, setPassword ] = useState( '' );
+    const [ username, setUsername ] = useState( 'dattruong' );
+    const [ password, setPassword ] = useState( '12345678' );
     const [ showPassword, setShowPassword ] = useState( true );
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
 
