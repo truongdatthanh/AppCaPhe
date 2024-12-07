@@ -8,6 +8,8 @@ export type RootStackParamList = {
   detail: ProductDetail;
   cart: CartItem;
   checkout: undefined;
+  search: undefined;
+  product: undefined;
 };
 
 type CartItem = {

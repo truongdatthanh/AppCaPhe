@@ -46,22 +46,6 @@ const CartScreen = () =>
   }, [] );
 
 
-  // useEffect( () =>
-  // {
-  //   if ( userId )
-  //   {
-  //     caphe.getCart( userId )
-  //       .then( ( response ) =>
-  //       {
-  //         setCartItems( response.data.items );
-  //         console.log( "active: ", response.data.items );
-  //       } )
-  //       .catch( ( error ) =>
-  //       {
-  //         console.error( error.response?.data || error.message );
-  //       } );
-  //   }
-  // }, [ userId ] );
   useFocusEffect(
     useCallback( () =>
     {
@@ -162,62 +146,67 @@ const CartScreen = () =>
 
     <View style={ styles.container }>
       <View>
-        <View style={ { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 } }>
+        <View style={ styles.header }>
           <TouchableOpacity onPress={ () => navigation.navigate( 'home2' ) }>
             <Ionicons name="chevron-back" size={ 24 } color="black" />
           </TouchableOpacity>
-          <Text>Giỏ hàng</Text>
+          <Text style={ styles.headerTitle }>Giỏ hàng</Text>
           <TouchableOpacity onPress={ () => handleClearCart() }>
             <Text>Xóa tất cả</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      { cartItems.length > 0 ? (
-        <View style={ { flex: 1 } }>
-          <Text>Danh sach san pham</Text>
-          <FlatList
-            showsVerticalScrollIndicator={ false } // Ẩn thanh cuộn dọc
-            contentContainerStyle={ { paddingBottom: 150 } } // Tạo khoảng trống dưới cùng
-            data={ cartItems }
-            keyExtractor={ ( item ) => item.productId }
-            renderItem={ ( { item } ) => (
-              <View style={ styles.itemContainer }>
-                <View style={ styles.itemDetails }>
-                  <View>
-                    <Image source={ { uri: "https://product.hstatic.net/1000075078/product/1639377797_ca-phe-den-da_6f4766ec0f8b4e929a8d916ae3c13254.jpg" } } style={ { height: 75, width: 60 } } />
-                  </View>
-                  <View>
-                    <Text style={ styles.itemName }>{ product.find( ( x ) => x._id === item.productId )?.name }</Text>
-                    <Text style={ styles.itemPrice }>{ product.find( ( x ) => x._id === item.productId )?.price } VND</Text>
-                  </View>
+      {
+        cartItems.length > 0 ? (
+          <View style={ styles.body }>
+            <View style={ styles.bodyContainer }>
+              <Text style={ styles.bodyTitle }>Danh sách sản phẩm</Text>
+              <FlatList
+                showsVerticalScrollIndicator={ false } // Ẩn thanh cuộn dọc
+                contentContainerStyle={ { paddingBottom: 150 } } // Tạo khoảng trống dưới cùng
+                data={ cartItems }
+                keyExtractor={ ( item ) => item.productId }
+                renderItem={ ( { item } ) => (
+                  <View style={ styles.itemContainer }>
+                    <View style={ styles.itemDetails }>
+                      <View>
+                        <Image source={ { uri: "https://product.hstatic.net/1000075078/product/1639377797_ca-phe-den-da_6f4766ec0f8b4e929a8d916ae3c13254.jpg" } } style={ { height: 75, width: 60 } } />
+                      </View>
+                      <View>
+                        <Text style={ styles.itemName }>{ product.find( ( x ) => x._id === item.productId )?.name }</Text>
+                        <Text style={ styles.itemPrice }>{ product.find( ( x ) => x._id === item.productId )?.price } VND</Text>
+                      </View>
 
-                  <View style={ styles.quantityContainer }>
-                    <TouchableOpacity onPress={ () => handleDecreaseQuantity( item.productId ) } style={ styles.quantityButton }>
-                      <Text style={ styles.quantityText }>-</Text>
-                    </TouchableOpacity>
-                    <Text style={ styles.quantityText }>{ item.quantity }</Text>
-                    <TouchableOpacity onPress={ () => handleIncreaseQuantity( item.productId ) } style={ styles.quantityButton }>
-                      <Text style={ styles.quantityText }>+</Text>
+                      <View style={ styles.quantityContainer }>
+                        <TouchableOpacity onPress={ () => handleDecreaseQuantity( item.productId ) } style={ styles.quantityButton }>
+                          <Text style={ styles.quantityText }>-</Text>
+                        </TouchableOpacity>
+                        <Text style={ styles.quantityText }>{ item.quantity }</Text>
+                        <TouchableOpacity onPress={ () => handleIncreaseQuantity( item.productId ) } style={ styles.quantityButton }>
+                          <Text style={ styles.quantityText }>+</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    <TouchableOpacity onPress={ () => handleRemoveFromCart( item.productId ) } style={ styles.removeButton }>
+                      <Text style={ styles.removeText }>Xóa</Text>
                     </TouchableOpacity>
                   </View>
-                </View>
-                <TouchableOpacity onPress={ () => handleRemoveFromCart( item.productId ) } style={ styles.removeButton }>
-                  <Text style={ styles.removeText }>Xóa</Text>
-                </TouchableOpacity>
-              </View>
-            ) } />
-          <View style={ styles.footer }>
-            <TouchableOpacity style={ styles.checkoutButton } onPress={ () => alert( 'xinchao' ) }>
-              <Text style={ styles.checkoutText }>Thanh toán ({ calculateTotal().toLocaleString() }đ)</Text>
-            </TouchableOpacity>
+                ) } />
+            </View>
+
+            <View style={ styles.footer }>
+              <TouchableOpacity style={ styles.checkoutButton } onPress={() => navigation.navigate('checkout') }>
+                <Text style={ styles.checkoutText }>Thanh toán ({ calculateTotal().toLocaleString() }đ)</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-      ) : (
-        <Text>Giỏ hàng của bạn đang trống!</Text>
-      ) }
-    </View>
+        ) : (
+          <Text>Giỏ hàng của bạn đang trống!</Text>
+        )
+      }
+    </View >
 
   );
 };
@@ -233,11 +222,13 @@ const styles = StyleSheet.create( {
     borderColor: 'red', // Màu xám nhạt
   },
   itemContainer: {
+    borderWidth: 1,
+    borderColor: "red",
+    flex: 1,
     flexDirection: 'row',
-    marginBottom: 16,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#dcdcdc', // Màu xám nhạt hơn
-    paddingBottom: 12,
     backgroundColor: '#fff', // Nền trắng cho từng mục
     borderRadius: 8,
     shadowColor: '#000',
@@ -245,7 +236,6 @@ const styles = StyleSheet.create( {
     shadowRadius: 4,
     elevation: 3, // Hiệu ứng nổi trên Android
     padding: 10,
-    flex: 1,
   },
   itemImage: {
     width: 80,
@@ -253,11 +243,11 @@ const styles = StyleSheet.create( {
     borderRadius: 8,
   },
   itemDetails: {
+    flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    gap: 30,
     marginLeft: 16,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   itemName: {
     fontSize: 16,
@@ -330,6 +320,29 @@ const styles = StyleSheet.create( {
     fontSize: 18, // Tăng kích thước chữ để dễ nhìn
     fontWeight: 'bold',
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  body: {
+    flex: 1,
+    backgroundColor: "white",
+    borderRadius: 10,
+  },
+  bodyContainer: {
+    padding: 10,
+  },
+  bodyTitle: {
+    fontSize: 15,
+    fontWeight: "500",
+  },
+
 } );
 
 export default CartScreen;

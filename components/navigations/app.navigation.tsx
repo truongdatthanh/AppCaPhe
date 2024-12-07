@@ -10,6 +10,8 @@ import CartScreen from "../../screens/CartScreen";
 import { useState } from "react";
 import { RootStackParamList } from "../../types/route";
 import CheckoutScreen from "../../screens/CheckoutScreen";
+import ProductScreen from "../../screens/ProductScreen";
+import SearchScreen from "../../screens/SearchScreen";
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -20,6 +22,7 @@ const HomeLayout = () =>
     return (
         <BottomTab.Navigator>
             <BottomTab.Screen name="home1" component={ MyStack } options={ { headerShown: false } } />
+            <BottomTab.Screen name="product" component={ ProductScreen } options={ { title: 'Dat hang', headerShown: false } }/>
             <BottomTab.Screen name="cart" component={ CartScreen } options={ { title: 'gio hang', headerShown: false } } />
             <BottomTab.Screen name="profile" component={ ProfileScreen } />
         </BottomTab.Navigator>
@@ -35,7 +38,9 @@ const MyStack = () =>
             <Stack.Screen name="detail" component={ DetailScreen } options={ { title: 'Chi tiết', headerShown: false } } />
             <Stack.Screen name="profile" component={ ProfileScreen } options={ { title: 'Trang ca nhan' } } />
             <Stack.Screen name="cart" component={ CartScreen } options={ { title: 'gio hang',  headerShown: false } } />
-            <Stack.Screen name="checkout" component={ CheckoutScreen } options={ { title: 'thanh toan' } } />
+            <Stack.Screen name="checkout" component={ CheckoutScreen } options={ { title: 'thanh toan', headerShown: false } } />
+            <Stack.Screen name="search" component={ SearchScreen } options={ { headerShown: false } } />
+            <Stack.Screen name="product" component={ ProductScreen } options={ { headerShown: false } } />
         </Stack.Navigator>
     )
 }
@@ -44,7 +49,7 @@ const MyStack = () =>
 const AppNavigation = () =>
 {
 
-    const [ isSignIn, setIsSignIn ] = useState( true );
+    const [ isSignIn, setIsSignIn ] = useState( false );
 
     return (
         <Stack.Navigator
