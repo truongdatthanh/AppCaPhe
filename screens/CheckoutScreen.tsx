@@ -66,11 +66,6 @@ const CheckoutScreen = () =>
         }, [ userId ]
         ) );
 
-    const handleCheckout = () =>
-    {
-        console.log( 'Checkout button pressed' );
-    };
-
 
     const handleChoosePayment = () =>
     {
@@ -83,6 +78,20 @@ const CheckoutScreen = () =>
         setPaymentOption( option );
         setModalVisible( false );
     };
+
+    const handleSubmitPayment = () =>
+    {
+        if ( paymentOption === "" )
+        {
+            alert( "Vui lòng chọn phương thức thanh toán" );
+            return;
+        }
+
+        if ( paymentOption === "COD" )
+        {
+            navigation.navigate( 'completed' );
+        }
+    }
 
 
     return (
@@ -174,7 +183,7 @@ const CheckoutScreen = () =>
                 </View>
             </View>
 
-            <Button title="Proceed to Payment" onPress={ handleCheckout } />
+            <Button title="Proceed to Payment" onPress={() => handleSubmitPayment()} />
         </ScrollView >
     );
 };

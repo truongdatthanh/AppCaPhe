@@ -2,7 +2,7 @@ import { Button, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, Vie
 import { caphe } from "../services/caphe.service";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../types/route";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -51,7 +51,6 @@ const CartScreen = () =>
     {
       if ( userId )
       {
-        console.log( "12312312: " );
         caphe.getCart( userId )
           .then( ( response ) =>
           {

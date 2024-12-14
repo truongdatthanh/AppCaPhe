@@ -12,6 +12,7 @@ import { RootStackParamList } from "../../types/route";
 import CheckoutScreen from "../../screens/CheckoutScreen";
 import ProductScreen from "../../screens/ProductScreen";
 import SearchScreen from "../../screens/SearchScreen";
+import OrderCompletedScreen from "../../screens/OrderCompletedSreen";
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -41,6 +42,7 @@ const MyStack = () =>
             <Stack.Screen name="checkout" component={ CheckoutScreen } options={ { title: 'thanh toan', headerShown: false } } />
             <Stack.Screen name="search" component={ SearchScreen } options={ { headerShown: false } } />
             <Stack.Screen name="product" component={ ProductScreen } options={ { headerShown: false } } />
+            <Stack.Screen name="completed" component={ OrderCompletedScreen } options={ { headerShown: false } } />
         </Stack.Navigator>
     )
 }

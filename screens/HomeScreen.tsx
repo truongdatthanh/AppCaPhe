@@ -64,12 +64,8 @@ const HomeScreen = () =>
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
 
     return (
-        <>
             <GestureHandlerRootView>
-                <ScrollView contentContainerStyle={ style.container }>
-                    <Image source={ { uri: "https://product.hstatic.net/1000075078/product/1639377797_ca-phe-den-da_6f4766ec0f8b4e929a8d916ae3c13254.jpg" } } style={{height: 100, width: 100}} />
-                    
-                   
+                <ScrollView contentContainerStyle={ style.container } showsVerticalScrollIndicator={false}>
                     {/* Slide anh */ }
                     <View style={ style.slide }>
                         <Slide />
@@ -113,8 +109,6 @@ const HomeScreen = () =>
                     {/* Ket thuc danh muc */ }
                 </ScrollView>
             </GestureHandlerRootView>
-        </>
-
     )
 };
 
