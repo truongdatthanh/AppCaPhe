@@ -25,7 +25,7 @@ const HomeLayout = () =>
             <BottomTab.Screen name="home1" component={ MyStack } options={ { headerShown: false } } />
             <BottomTab.Screen name="product" component={ ProductScreen } options={ { title: 'Dat hang', headerShown: false } }/>
             <BottomTab.Screen name="cart" component={ CartScreen } options={ { title: 'gio hang', headerShown: false } } />
-            <BottomTab.Screen name="profile" component={ ProfileScreen } />
+            <BottomTab.Screen name="profile" component={ ProfileScreen } options={{headerShown: false}} />
         </BottomTab.Navigator>
     )
 };
@@ -34,7 +34,7 @@ const HomeLayout = () =>
 const MyStack = () =>
 {
     return (
-        <Stack.Navigator >
+        <Stack.Navigator initialRouteName="home2">
             <Stack.Screen name="home2" component={ HomeScreen } options={ { header: () => <AppHeader /> } } />
             <Stack.Screen name="detail" component={ DetailScreen } options={ { title: 'Chi tiết', headerShown: false } } />
             <Stack.Screen name="profile" component={ ProfileScreen } options={ { title: 'Trang ca nhan' } } />

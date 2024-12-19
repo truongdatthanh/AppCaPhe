@@ -1,11 +1,12 @@
 import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { Alert, Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
 import { caphe } from "../services/caphe.service";
 import { RootStackParamList } from "../types/route";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
+
 
 
 interface IProduct
@@ -26,6 +27,7 @@ const DetailScreen = () =>
     const { _id: productId } = route.params; // Lấy dữ liệu từ navigation
     const [ isLoading, setIsLoading ] = useState( false );
     const [ product, setProduct ] = useState<IProduct>( { _id: "", name: "", image: "", description: "", price: 0, categoryId: "" } );
+    const [ isFavorite, setIsFavorite ] = useState( false );
 
     useEffect( () =>
     {
@@ -61,6 +63,10 @@ const DetailScreen = () =>
         }
     };
 
+    const handleToggleFavorite = async () => {
+        setIsFavorite(!isFavorite); // Toggle trạng thái
+    };
+
     return (
         <View style={ { flex: 1 } }>
             <ScrollView contentContainerStyle={ styles.container }>
@@ -73,15 +79,23 @@ const DetailScreen = () =>
                 <View style={ styles.header }>
                     <View style={ { flexDirection: "row", alignItems: "center", justifyContent: "space-between" } }>
                         <Text style={ styles.title } numberOfLines={ 2 } ellipsizeMode="tail">{ product.name }</Text>
-                        <TouchableOpacity>
+                        {/* <TouchableOpacity>
                             <AntDesign name="heart" size={ 24 } color="red" />
+                            <AntDesign name="hearto" size={24} color="black" />
+                        </TouchableOpacity> */}
+                        <TouchableOpacity onPress={ handleToggleFavorite }>
+                            { isFavorite ? (
+                                <AntDesign name="heart" size={ 24 } color="red" /> // Trái tim màu đỏ
+                            ) : (
+                                <AntDesign name="hearto" size={ 24 } color="black" /> // Trái tim rỗng
+                            ) }
                         </TouchableOpacity>
                     </View>
                     <View>
-                        <Text style={ styles.price }>{ product.price }.000đ</Text>
+                        <Text style={ styles.price }>{ product.price }đ</Text>
                     </View>
                     <View>
-                        <Text style={ { fontSize: 13, fontWeight: 300, marginBottom: 20 } }>{ product.description } absdjasvdhjasghjdghasjd asdasdasd asdasdasd asdas da d asdadas asdasdsadasd asdasdasdsad asdasdsa asdasdasdasdasda </Text>
+                        <Text style={ { fontSize: 13, fontWeight: 300, marginBottom: 20 } }>{ product.description } </Text>
                     </View>
 
                     <View style={ { flexDirection: "row" } }>
@@ -99,8 +113,10 @@ const DetailScreen = () =>
 
 
 
-                <View style={ styles.topping }>
-                    <Text>Topping</Text>
+                <View style={ styles.note }>
+                    <Text style={ styles.title }>Yêu cầu khác </Text>
+                    <Text>Những tùy chọn khác</Text>
+                    <TextInput style={ styles.textInput } placeholder="Thêm ghi chú" />
                 </View>
 
 
@@ -121,10 +137,9 @@ const DetailScreen = () =>
 
 const styles = StyleSheet.create( {
     container: {
-        // height: "auto",
-        borderWidth: 3,
-        borderColor: "green",
-        backgroundColor: "purple",
+        height: "auto",
+        // height: "100%",
+        backgroundColor: "#ccc",
     },
     title: {
         fontSize: 24,
@@ -138,8 +153,6 @@ const styles = StyleSheet.create( {
     header: {
         marginBottom: 20,
         backgroundColor: '#fff',
-        borderWidth: 3,
-        borderColor: "blue",
         padding: 10,
         elevation: 10,
     },
@@ -148,11 +161,11 @@ const styles = StyleSheet.create( {
         height: 400,
 
     },
-    topping: {
-        marginBottom: 20,
-        backgroundColor: 'red',
+    note: {
+        marginBottom: 70,
+        backgroundColor: '#fff',
         flex: 1,
-        height: 500,
+        padding: 10,
     },
     button: {
         backgroundColor: "blue",
@@ -173,7 +186,15 @@ const styles = StyleSheet.create( {
         marginRight: 10,
         width: 60,
         alignItems: "center",
-    }
+    },
+    textInput: {
+        borderWidth: 1,
+        borderColor: "black",
+        padding: 10,
+        borderRadius: 10,
+        width: "100%",
+        marginBottom: 10,
+    },
 } );
 
 export default DetailScreen;

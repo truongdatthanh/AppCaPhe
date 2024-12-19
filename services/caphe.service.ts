@@ -49,4 +49,19 @@ export const caphe = {
   {
     return https.get( "/product/get-product-by-id/" + id );
   },
+
+  updateStatusCart: ( userId: string, status: boolean ) =>
+  {
+    return https.patch( `/cart/update-status/${userId}`, {status} );
+  },
+
+  createPurchased: ( data: any ) =>
+  {
+    return https.post( "/purchased/create", data );
+  },
+
+  getCartByUserId: ( userId: string ) =>
+  {
+    return https.get( `/cart/get-cart/${userId}` );
+  }
 };

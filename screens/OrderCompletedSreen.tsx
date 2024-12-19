@@ -12,9 +12,10 @@ const OrderCompletedScreen = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Payment Completed!</Text>
-            <Text style={styles.message}>Thank you for your purchase.</Text>
-            <Button title="Continue Shopping" onPress={handleContinueShopping} />
+            <Text style={styles.title}>Thanh toán thành công!</Text>
+            <Text style={ styles.message }>Cảm ơn bạn đã mua hàng của chúng tôi.</Text>
+            <Text style={styles.message}>Đơn hàng của bạn đang được xử lý!</Text>
+            <Button title="Tiếp tục mua sắm" onPress={handleContinueShopping} />
         </View>
     );
 };

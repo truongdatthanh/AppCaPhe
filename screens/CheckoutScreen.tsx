@@ -32,6 +32,9 @@ const CheckoutScreen = () =>
     const [ product, setProduct ] = useState<IProduct[]>( [] );
     const [ modalVisible, setModalVisible ] = useState( false );
     const [ paymentOption, setPaymentOption ] = useState( "" );
+    const [ address, setAddress ] = useState( "" );
+    const [ total, setTotal ] = useState( 0 );
+    const [ cartId, setCartId ] = useState( "" );
 
     useEffect( () =>
     {
@@ -43,6 +46,16 @@ const CheckoutScreen = () =>
 
     useEffect( () =>
     {
+        caphe.getCartByUserId( userId ).then( ( res: any ) =>
+        {
+            setCartId( res.data._id );
+            console.log( res.data._id );
+        } )
+    }, [] );
+
+
+    useEffect( () =>
+    {
         AsyncStorage.getItem( 'UserId' ).then( ( value ) => setUserId( value ?? "" ) );
     }, [] );
 
@@ -51,11 +64,11 @@ const CheckoutScreen = () =>
         {
             if ( userId )
             {
-                console.log( "12312312: " );
                 caphe.getCart( userId )
                     .then( ( response ) =>
                     {
                         setCartItems( response.data.items );
+                        
                         console.log( "active: ", response.data.items );
                     } )
                     .catch( ( error ) =>
@@ -66,6 +79,11 @@ const CheckoutScreen = () =>
         }, [ userId ]
         ) );
 
+    const totalAmount = cartItems.reduce( ( total, item ) => total + ( product.find( ( x ) => x._id === item.productId )?.price || 0 ) * item.quantity, 0 );
+    useEffect( () =>
+    {
+        setTotal( totalAmount );
+    }, [ cartItems ] );
 
     const handleChoosePayment = () =>
     {
@@ -90,6 +108,8 @@ const CheckoutScreen = () =>
         if ( paymentOption === "COD" )
         {
             navigation.navigate( 'completed' );
+            caphe.createPurchased( { userId, cartId, address, paymentOption, total } );
+            caphe.updateStatusCart( userId, false );
         }
     }
 
@@ -97,7 +117,7 @@ const CheckoutScreen = () =>
     return (
         <ScrollView style={ styles.container }>
             <View style={ styles.header }>
-                <TouchableOpacity style={ { position: "absolute", right: 12, top: 8 } } onPress={ () => navigation.goBack()}>
+                <TouchableOpacity style={ { position: "absolute", right: 12, top: 8 } } onPress={ () => navigation.goBack() }>
                     <AntDesign name="close" size={ 24 } color="black" />
                 </TouchableOpacity>
                 <Text style={ styles.title }>Xác nhận đơn hàng</Text>
@@ -106,7 +126,10 @@ const CheckoutScreen = () =>
             <View style={ styles.body }>
                 <View style={ styles.adress }>
                     <Text style={ styles.bodyTitle }>Địa chỉ giao hàng</Text>
-                    <TextInput placeholder='Địa chỉ' />
+                    <TextInput style={ styles.inputAddress } value={ address } placeholder='Địa chỉ' onChangeText={ setAddress } />
+                    
+                    <Text style={ styles.bodyTitle }>Ngày đặt hàng</Text>
+                    {/* <Text></Text> */}
                 </View>
 
 
@@ -133,7 +156,7 @@ const CheckoutScreen = () =>
                         <Text style={ styles.bodyTitle }>Tổng cộng</Text>
                         <View style={ { flexDirection: "row", justifyContent: "space-between", paddingVertical: 15, borderBottomWidth: 1, borderColor: '#dcdcdc' } }>
                             <Text>Thành tiền</Text>
-                            <Text>{ cartItems.reduce( ( total, item ) => total + ( product.find( ( x ) => x._id === item.productId )?.price || 0 ) * item.quantity, 0 ) } VND</Text>
+                            <Text>{totalAmount} VND</Text>
                         </View>
                         <View style={ { flexDirection: "row", justifyContent: "space-between", paddingVertical: 15, borderBottomWidth: 1, borderColor: '#dcdcdc' } }>
                             <Text>Mã giảm giá</Text>
@@ -141,7 +164,7 @@ const CheckoutScreen = () =>
                         </View>
                         <View style={ { flexDirection: "row", justifyContent: "space-between", paddingVertical: 15 } }>
                             <Text>Số tiền thanh toán</Text>
-                            <Text>{ cartItems.reduce( ( total, item ) => total + ( product.find( ( x ) => x._id === item.productId )?.price || 0 ) * item.quantity, 0 ) } VND</Text>
+                            <Text>{totalAmount} VND</Text>
                         </View>
                     </View>
                 </View>
@@ -149,8 +172,8 @@ const CheckoutScreen = () =>
                 <View style={ styles.payment }>
                     <Text style={ styles.bodyTitle }>Phương thức thanh toán</Text>
                     <TouchableOpacity style={ { flexDirection: "row", justifyContent: "space-between" } } onPress={ handleChoosePayment }>
-                        <Text style={ { color: "blue" } }>{ paymentOption === "" ? `Chon phuong thuc thanh toan` : paymentOption }</Text>
-                        <AntDesign name="right" size={ 20 } color="blue" />
+                        <Text style={ { color: "blue" } }>{ paymentOption === "" ? `Chọn phương thức thanh toán` : paymentOption }</Text>
+                        <AntDesign name="right" size={ 15 } color="blue" />
                     </TouchableOpacity>
                     <Modal
                         animationType="slide"
@@ -183,7 +206,9 @@ const CheckoutScreen = () =>
                 </View>
             </View>
 
-            <Button title="Proceed to Payment" onPress={() => handleSubmitPayment()} />
+            <TouchableOpacity style={ styles.btnSubmitPayment } onPress={ () => handleSubmitPayment() }>
+                <Text style={ styles.textPayment }>Đặt hàng ngay!</Text>
+            </TouchableOpacity>
         </ScrollView >
     );
 };
@@ -299,6 +324,29 @@ const styles = StyleSheet.create( {
         padding: 5,
         borderRadius: 20,
     },
+    btnSubmitPayment: {
+        borderWidth: 1,
+        borderColor: 'gray',
+        backgroundColor: '#6d4c41',
+        alignItems: 'center',
+        padding: 10,
+        height: 50,
+        marginBottom: 20,
+        marginHorizontal: 20,
+        borderRadius: 10,
+    },
+    textPayment: {
+        color: '#fff',
+        fontSize: 18, // Tăng kích thước chữ để dễ nhìn
+        fontWeight: 'bold',
+    },
+    inputAddress: {
+        borderWidth: 1,
+        borderColor: 'gray',
+        backgroundColor: 'white',
+        padding: 10,
+        marginVertical: 10,
+    },  
 } );
 
 export default CheckoutScreen;
