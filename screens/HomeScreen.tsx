@@ -49,27 +49,23 @@ const HomeScreen = () =>
         } )
     }, [] )
 
-    const [ selectedCategory, setSelectedCategory ] = useState( "All" );
+    const [ selectedCategory, setSelectedCategory ] = useState( "Tất cả" );
 
-    const category = [ { _id: "All", name: "All" }, ...categories ];
+    const category = [ { _id: "Tất cả", name: "Tất cả" }, ...categories ];
     useEffect( () =>
     {
         console.log( selectedCategory )
     }, [ selectedCategory ] );
 
-    const filteredProducts = selectedCategory === "All" ? product : product.filter( product => product.categoryId === selectedCategory );
+    const filteredProducts = selectedCategory === "Tất cả" ? product : product.filter( product => product.categoryId === selectedCategory );
 
 
 
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
 
     return (
-        <>
             <GestureHandlerRootView>
-                <ScrollView contentContainerStyle={ style.container }>
-                    <Image source={ { uri: "https://product.hstatic.net/1000075078/product/1639377797_ca-phe-den-da_6f4766ec0f8b4e929a8d916ae3c13254.jpg" } } style={{height: 100, width: 100}} />
-                    
-                   
+                <ScrollView contentContainerStyle={ style.container } showsVerticalScrollIndicator={false}>
                     {/* Slide anh */ }
                     <View style={ style.slide }>
                         <Slide />
@@ -98,23 +94,21 @@ const HomeScreen = () =>
                         { filteredProducts.map( ( product ) => (
                             <TouchableOpacity key={ product._id } style={ style.productContainer } onPress={ () => navigation.navigate( "detail", { _id: product._id } ) }>
                                 <View style={ { flexDirection: "row" } }>
-                                    <Image source={ { uri: product.image } } style={ style.productImage } />
+                                    <Image source={require('../assets/img/ca-phe-den.jpg') } style={ style.productImage } />
                                     <View style={ style.titleItem }>
                                         <View style={ style.titleName }>
                                             <Text style={ style.productName }>{ product.name }</Text>
-                                            <Text>Mô tả: { product.description }</Text>
+                                            {/* <Text>Mô tả: { product.description }</Text> */}
                                         </View>
                                     </View>
                                 </View>
-                                <Text style={ style.productPrice }>{ product.price }.000D</Text>
+                                <Text style={ style.productPrice }>{ product.price }đ</Text>
                             </TouchableOpacity>
                         ) ) }
                     </ScrollView>
                     {/* Ket thuc danh muc */ }
                 </ScrollView>
             </GestureHandlerRootView>
-        </>
-
     )
 };
 
@@ -124,8 +118,6 @@ const style = StyleSheet.create( {
         padding: 10,
     },
     slide: {
-        borderWidth: 2,
-        borderColor: "black",
         padding: 3,
     },
     img: {
@@ -133,42 +125,35 @@ const style = StyleSheet.create( {
         height: 150,
     },
     banner: {
-        borderWidth: 2,
         borderColor: "purple",
     },
 
     scrollContainer: {
         padding: 10,
-        borderWidth: 1,
-        borderColor: "blue",
     },
     productContainer: {
         // width: 100, // Đặt kích thước cho mỗi sản phẩm
         flexDirection: 'row',
         marginVertical: 10,
-        borderWidth: 1,
-        borderColor: "blue",
+        backgroundColor: '#fff',
         justifyContent: 'space-between',
+        borderRadius: 10,
     },
     productImage: {
         width: 100,
         height: 100,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: 'orange',
     },
     productName: {
         paddingBottom: 10,
         fontSize: 20,
-        borderWidth: 1,
-        borderColor: 'green',
         fontWeight: 'bold',
     },
     productPrice: {
-        fontSize: 20,
-        borderWidth: 1,
-        borderColor: 'green',
+        fontSize: 17,
         fontWeight: 'bold',
+        paddingRight: 10,
+        paddingTop: 10, 
     },
 
     reviewItem: {
@@ -194,9 +179,10 @@ const style = StyleSheet.create( {
     },
 
     categories: {
+        paddingTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 20,
+        marginBottom: 5,
     },
     categoryButton: {
         padding: 10,
@@ -228,15 +214,11 @@ const style = StyleSheet.create( {
     titleItem: {
         marginLeft: 10,
         flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: 'blue',
-
     },
     titleName: {
+        paddingLeft: 20,
         flexDirection: 'column',
         justifyContent: 'space-around',
-        borderWidth: 1,
-        borderColor: 'red',
     },
 } );
 

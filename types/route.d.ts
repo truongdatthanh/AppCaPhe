@@ -10,6 +10,7 @@ export type RootStackParamList = {
   checkout: undefined;
   search: undefined;
   product: undefined;
+  completed: undefined;
 };
 
 type CartItem = {

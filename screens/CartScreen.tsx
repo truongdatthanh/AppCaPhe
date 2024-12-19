@@ -2,7 +2,7 @@ import { Button, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, Vie
 import { caphe } from "../services/caphe.service";
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../types/route";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -47,12 +47,11 @@ const CartScreen = () =>
 
 
   useFocusEffect(
-    useCallback( () =>
+    useCallback( () => 
     {
       if ( userId )
       {
-        console.log( "12312312: " );
-        caphe.getCart( userId )
+         caphe.getCart( userId )
           .then( ( response ) =>
           {
             setCartItems( response.data.items );
@@ -158,7 +157,7 @@ const CartScreen = () =>
       </View>
 
       {
-        cartItems.length > 0 ? (
+         cartItems?.length > 0 ? (
           <View style={ styles.body }>
             <View style={ styles.bodyContainer }>
               <Text style={ styles.bodyTitle }>Danh sách sản phẩm</Text>
@@ -218,12 +217,8 @@ const styles = StyleSheet.create( {
     flex: 1,
     backgroundColor: '#f7f5f2', // Màu nền nhẹ nhàng như màu cà phê sữa
     padding: 16,
-    borderWidth: 1,
-    borderColor: 'red', // Màu xám nhạt
   },
   itemContainer: {
-    borderWidth: 1,
-    borderColor: "red",
     flex: 1,
     flexDirection: 'row',
     marginBottom: 10,
