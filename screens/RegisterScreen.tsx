@@ -18,6 +18,7 @@ const RegisterScreen = () =>
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
 
     const [ NameError, setNameError ] = useState( '' );
+    const [ UserNameError, setUserNameError ] = useState( '' );
     const [ emailError, setEmailError ] = useState( '' );
     const [ passwordError, setPasswordError ] = useState( '' );
     const [ confirmPasswordError, setConfirmPasswordError ] = useState( '' );
@@ -34,6 +35,7 @@ const RegisterScreen = () =>
         setPasswordError( '' );
         setConfirmPasswordError( '' );
         setPhoneNumberError( '' );
+        setUserNameError( '' );
 
         // Kiểm tra từng trường hợp và hiển thị lỗi nếu có
         if ( !name )
@@ -87,25 +89,42 @@ const RegisterScreen = () =>
             return;
         }
 
-        if ( name && username && email && password && confirmPassword && phoneNumber )
+        try
         {
-            Alert.alert(
-                "Đăng ký thành công",
-                `Chào mừng, ${ username }`,
-                [ {
-                    text: "OK",
-                    onPress: () => setTimeout( () => navigation.navigate( 'login' ), 100 )
-                } ]
-            );
-        }
-        else
+            const response = await caphe.postRegister( { name, username, email, password, phoneNumber, avatar: '', address: '', birthday: '', gen: '' } );
+            console.log( response.data );
+            if ( response.status !== 400 )
+            {
+                if ( name && username && email && password && confirmPassword && phoneNumber )
+                {
+                    Alert.alert(
+                        "Đăng ký thành công",
+                        `Chào mừng, ${ username }`,
+                        [ {
+                            text: "OK",
+                            onPress: () => setTimeout( () => navigation.navigate( 'login' ), 100 )
+                        } ]
+                    );
+                }
+                else
+                {
+                    Alert.alert( "Lỗi", "Vui lòng điền đầy đủ thông tin!" );
+                }
+            }
+        } catch ( error )
         {
-            Alert.alert( "Lỗi", "Vui lòng điền đầy đủ thông tin!" );
+            const errorMessage = ( error as any ).response?.data.message || ( error as any ).message;
+            if ( errorMessage === "Tên tài khoản đã được sử dụng!!!" )
+            {
+                setUserNameError( 'Tên tài khoản đã được sử dụng!!!' );
+            }
+            else if ( errorMessage === "Email đã được sử dụng!!!" )
+            {
+                setEmailError( 'Email đã được sử dụng!!!' );
+                console.log( emailError );
+            }
+            //Alert.alert( errorMessage );
         }
-
-        const response = await caphe.postRegister( { name, username, email, password, phoneNumber, avatar: '', address: '' } );
-        console.log( response.data );
-
     };
 
     const handleLogin = () =>
@@ -128,6 +147,7 @@ const RegisterScreen = () =>
             </View>
 
             <View>
+                <Text style={ styles.errorText }>{ UserNameError }</Text>
                 <TextInput
                     style={ styles.input }
                     placeholder="Tên đăng nhập"

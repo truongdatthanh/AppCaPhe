@@ -34,7 +34,11 @@ const LoginScreen = () =>
                 AsyncStorage.setItem( 'UserRole', currentUser.role );
 
                 //Chuyển hướng về trang chủ
-                navigation.navigate( 'home' );
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'home' }],
+                } );
+                
             } else
             {
                 console.log( response.data.message );
@@ -42,8 +46,8 @@ const LoginScreen = () =>
             }
         } catch ( error )
         {
-            console.error( error );
-            Alert.alert( 'Lỗi', 'Có lỗi gì đó đang xảy ra!' );
+            // console.error( error );
+            Alert.alert( 'Lỗi', 'Tài khoản hoặc mật khẩu không chính xác!' );
         }
     };
 
@@ -54,6 +58,10 @@ const LoginScreen = () =>
         navigation.navigate( 'register' );
     };
 
+    const handleLoginGoogle = () =>
+    {
+        caphe.loginWithGoogle();
+    };
     return (
         <View style={ styles.container }>
             <StatusBar
@@ -106,21 +114,15 @@ const LoginScreen = () =>
             </View>
 
 
-            <View style={ styles.line }>
+            {/* <View style={ styles.line }>
                 <Text style={ styles.lineText }></Text>
                 <Text style={ styles.lineTitle }>hoặc</Text>
                 <Text style={ styles.lineText }></Text>
-            </View>
-
-
-            {/* <View style={ styles.externalIcon }>
-                <TouchableOpacity style={ styles.icon } onPress={ () => alert( "Google" ) }>
-                    <Image source={ require( '../assets/img/' ) } style={ styles.iconImage } />
-                </TouchableOpacity>
-                <TouchableOpacity style={ styles.icon } onPress={ () => alert( "Facebook" ) }>
-                    <Image source={ require('../assets/img/Facebook_icon.jpg')} style={ styles.iconImage } />
+                <TouchableOpacity onPress={() => handleLoginGoogle()}>
+                    <Text> google </Text>
                 </TouchableOpacity>
             </View> */}
+
 
             <View style={ styles.registerContainer }>
                 <View style={ styles.register } >
@@ -132,7 +134,6 @@ const LoginScreen = () =>
                     </TouchableOpacity>
                 </View>
             </View>
-
         </View>
 
     );

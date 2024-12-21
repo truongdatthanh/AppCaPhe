@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../types/route';
 
 const OrderCompletedScreen = () => {
     const navigation: NavigationProp<RootStackParamList> = useNavigation();
+
 
     const handleContinueShopping = () => {
         navigation.navigate('home2');

@@ -5,18 +5,12 @@ import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colo
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { caphe } from "../../services/caphe.service";
+import { RootStackParamList } from "../../types/route";
 
 
 const AppHeader = () => {
-    const navigation: any = useNavigation();
-    const [search, setSearch] = useState("");
-    const handleSearch = (search: string) =>
-    {
-        const data = caphe.getProductByNames( search );
-        console.log(data);
-        navigation.navigate("detail", { name: search });  
-        console.log('Bạn đã tìm kiếm:', search);
-    };
+    const navigation: NavigationProp<RootStackParamList> = useNavigation();
+  
     return (
         <View>
             <View style={style.container}>
@@ -27,10 +21,9 @@ const AppHeader = () => {
                 </View>
                 <View>
                     <View style={style.searchBar}>
-                        <TouchableOpacity onPress={() => handleSearch(search)}>
-                            <Ionicons name="search" size={24} color="gray" />
+                        <TouchableOpacity onPress={() => navigation.navigate("search")}>
+                            <Ionicons name="search" size={30} color="black" />
                         </TouchableOpacity>
-                        <TextInput placeholder="Tim kiem tai day" value={search} onChangeText={(data) => setSearch(data)} />
                     </View>
                 </View>
 
@@ -70,8 +63,6 @@ const style = StyleSheet.create({
         fontSize: 20,
     },
     searchBar: {
-        borderBottomColor: "red",
-        borderBottomWidth: 2,
         display: "flex",
         flexDirection: "row",
     },

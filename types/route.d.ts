@@ -1,5 +1,7 @@
 export type RootStackParamList = {
+  main: undefined;
   home: { name: string } | undefined;
+  home1: undefined;
   home2: undefined;
   about: undefined;
   login: undefined;
@@ -11,22 +13,21 @@ export type RootStackParamList = {
   search: undefined;
   product: undefined;
   completed: undefined;
+  other: undefined;
+  other1: undefined;
+  setting: undefined;
+  setting1: undefined;
+  changePassword: undefined;
+  policies: undefined;
 };
 
 type CartItem = {
   userId: string;
   productId: string;
-  // name: string;
-  // price: number;
 };
 
 type ProductDetail = {
   _id: string;
-  // name: string;
-  // image: string;
-  // description: string;
-  // price: number;
-  // categoryId: string;
 };
 
 declare module "*.jpg";
