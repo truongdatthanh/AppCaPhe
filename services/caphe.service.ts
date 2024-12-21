@@ -21,10 +21,6 @@ export const caphe = {
     return https.post("/user/register", data);
   },
 
-  getLoginGoogle: () => {
-    return https.post("/app/google");
-  },
-
   getCart: (userId: string) => {
     return https.get("/cart/" + userId);  
   },
@@ -63,5 +59,21 @@ export const caphe = {
   getCartByUserId: ( userId: string ) =>
   {
     return https.get( `/cart/get-cart/${userId}` );
+  },
+  getUserById: ( userId: string ) =>
+  {
+    return https.get( `/user/${userId}` );
+  },
+  getEditUser: ( userId: string, data: any ) =>
+  {
+    return https.patch( `/user/edit/${userId}`, data );
+  },
+  loginWithGoogle ()
+  {
+    return https.get( "/auth/google/login" );
+  },
+  patchChangePassword: ( userId: string, oldPassword: string, newPassword: string ) =>
+  {
+    return https.patch( `/user/change-password/${userId}`, {oldPassword, newPassword} );
   }
 };

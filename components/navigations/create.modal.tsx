@@ -34,7 +34,7 @@ const CreateModal = (props: IProps) => {
     }
 
     return (
-        <>
+        
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -65,7 +65,6 @@ const CreateModal = (props: IProps) => {
                     </View>
                 </View>
             </Modal>
-        </>
     )
 }
 

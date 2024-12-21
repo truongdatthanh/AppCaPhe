@@ -1,5 +1,5 @@
-import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { NavigationProp, RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import { Alert, Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput } from "react-native";
 import { caphe } from "../services/caphe.service";
 import { RootStackParamList } from "../types/route";
@@ -51,7 +51,6 @@ const DetailScreen = () =>
         {
             await caphe.addToCart( userId, productId, 1 ); // Thêm sản phẩm vào giỏ hàng với số lượng là 1
             navigation.navigate( 'cart', { userId, productId } ); // Chuyển hướng đến trang giỏ hàng
-            // navigation.goBack();
             Alert.alert( 'Thành công', 'Sản phẩm đã được thêm vào giỏ hàng!' );
         } catch ( error )
         {
@@ -63,13 +62,29 @@ const DetailScreen = () =>
         }
     };
 
-    const handleToggleFavorite = async () => {
-        setIsFavorite(!isFavorite); // Toggle trạng thái
+    useFocusEffect(
+        useCallback( () =>
+        {
+            navigation.getParent()?.setOptions( { tabBarStyle: { display: 'none' } } ); // Ẩn TabBar
+
+            return () =>
+            {
+                navigation.getParent()?.setOptions( { tabBarStyle: { display: 'flex' } } ); // Hiển thị lại TabBar khi rời khỏi màn hình
+            };
+        }, [ navigation ] )
+    );
+
+    const handleToggleFavorite = async () =>
+    {
+        setIsFavorite( !isFavorite ); // Toggle trạng thái
     };
 
     return (
         <View style={ { flex: 1 } }>
-            <ScrollView contentContainerStyle={ styles.container }>
+            <ScrollView
+                contentContainerStyle={ styles.container }
+                showsHorizontalScrollIndicator={ false }
+            >
                 <View>
                     <Image source={ { uri: "https://product.hstatic.net/1000075078/product/1639377797_ca-phe-den-da_6f4766ec0f8b4e929a8d916ae3c13254.jpg" } } style={ styles.headerImage } />
                     <TouchableOpacity onPress={ () => navigation.goBack() } style={ { position: 'absolute', right: 10, top: 10 } }>
@@ -79,10 +94,6 @@ const DetailScreen = () =>
                 <View style={ styles.header }>
                     <View style={ { flexDirection: "row", alignItems: "center", justifyContent: "space-between" } }>
                         <Text style={ styles.title } numberOfLines={ 2 } ellipsizeMode="tail">{ product.name }</Text>
-                        {/* <TouchableOpacity>
-                            <AntDesign name="heart" size={ 24 } color="red" />
-                            <AntDesign name="hearto" size={24} color="black" />
-                        </TouchableOpacity> */}
                         <TouchableOpacity onPress={ handleToggleFavorite }>
                             { isFavorite ? (
                                 <AntDesign name="heart" size={ 24 } color="red" /> // Trái tim màu đỏ
@@ -115,7 +126,10 @@ const DetailScreen = () =>
 
                 <View style={ styles.note }>
                     <Text style={ styles.title }>Yêu cầu khác </Text>
-                    <Text>Những tùy chọn khác</Text>
+                    <View style={ { marginBottom: 10, flexDirection: "row", alignItems: "center" } }>
+                        <Text style={{fontSize: 15}}>Những tùy chọn khác</Text>
+                        <Text style={{marginLeft: 10, color: "gray", fontSize: 12}}>Không bắt buộc</Text>
+                    </View>
                     <TextInput style={ styles.textInput } placeholder="Thêm ghi chú" />
                 </View>
 
@@ -124,10 +138,9 @@ const DetailScreen = () =>
 
             <TouchableOpacity
                 onPress={ handleAddToCart }
-                // disabled={ isLoading }
                 style={ styles.button }
             >
-                <Text style={ { color: "white", paddingRight: 10 } }>Thêm vào giỏ hàng</Text>
+                <Text style={ { color: "white", paddingRight: 10, fontWeight: "900" } }>THÊM VÀO GIỎ HÀNG</Text>
                 <Feather name="shopping-cart" size={ 24 } color="white" />
             </TouchableOpacity>
         </View>
@@ -168,15 +181,14 @@ const styles = StyleSheet.create( {
         padding: 10,
     },
     button: {
-        backgroundColor: "blue",
+        backgroundColor: "#ec1c24",
         padding: 15,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 10,
         position: "absolute",
-        left: 20,
-        right: 20,
-        bottom: 10,
+        left: 0,
+        right: 0,
+        bottom: 0,
         flexDirection: "row",
     },
     buttonSize: {
@@ -189,9 +201,9 @@ const styles = StyleSheet.create( {
     },
     textInput: {
         borderWidth: 1,
-        borderColor: "black",
+        borderColor: "gray",
         padding: 10,
-        borderRadius: 10,
+        borderRadius: 2,
         width: "100%",
         marginBottom: 10,
     },

@@ -51,7 +51,7 @@ const CartScreen = () =>
     {
       if ( userId )
       {
-         caphe.getCart( userId )
+        caphe.getCart( userId )
           .then( ( response ) =>
           {
             setCartItems( response.data.items );
@@ -157,7 +157,7 @@ const CartScreen = () =>
       </View>
 
       {
-         cartItems?.length > 0 ? (
+        cartItems?.length > 0 ? (
           <View style={ styles.body }>
             <View style={ styles.bodyContainer }>
               <Text style={ styles.bodyTitle }>Danh sách sản phẩm</Text>
@@ -195,14 +195,18 @@ const CartScreen = () =>
             </View>
 
             <View style={ styles.footer }>
-              <TouchableOpacity style={ styles.checkoutButton } onPress={() => navigation.navigate('checkout') }>
+              <TouchableOpacity style={ styles.checkoutButton } onPress={ () => navigation.navigate( 'checkout' ) }>
                 <Text style={ styles.checkoutText }>Thanh toán ({ calculateTotal().toLocaleString() }đ)</Text>
               </TouchableOpacity>
             </View>
           </View>
 
         ) : (
-          <Text>Giỏ hàng của bạn đang trống!</Text>
+          <View style={ styles.container1 }>
+            {/* Thông báo */ }
+            <Text style={ styles.title }>Giỏ hàng của bạn đang trống</Text>
+            <Text style={ styles.subtitle }>Hãy thêm sản phẩm yêu thích vào giỏ và quay lại đây nhé!</Text>
+          </View>
         )
       }
     </View >
@@ -216,6 +220,13 @@ const styles = StyleSheet.create( {
   container: {
     flex: 1,
     backgroundColor: '#f7f5f2', // Màu nền nhẹ nhàng như màu cà phê sữa
+    padding: 16,
+  },
+  container1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f7f5f2',
     padding: 16,
   },
   itemContainer: {
@@ -336,6 +347,36 @@ const styles = StyleSheet.create( {
   bodyTitle: {
     fontSize: 15,
     fontWeight: "500",
+  },
+
+  image: {
+    width: 150,
+    height: 150,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#666",
+    textAlign: "center",
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  button: {
+    backgroundColor: "#ff6f00",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
   },
 
 } );

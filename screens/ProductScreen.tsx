@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, ScrollView, Image, 
 import { caphe } from '../services/caphe.service';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../types/route';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface IProduct
 {
@@ -49,14 +50,11 @@ const ProductScreen = () =>
 
     return (
         <View>
-            <View>
-                <TouchableOpacity style={ {
-                    borderWidth: 2,
-                    borderColor: 'red',
-                    borderRadius: 20,
-                    margin: 10,
-                } } onPress={ () => navigation.navigate( 'search' ) }>
-                    <Text>Tim kiem san pham</Text>
+            <View style={ style.headerSearch }>
+                <TouchableOpacity style={ { flexDirection: 'row', alignItems: 'center', flex: 1, paddingHorizontal: 8, margin: 10, justifyContent: 'space-between' } }
+                    onPress={ () => navigation.navigate( 'search' ) }>
+                    <Text>Tìm kiếm tên món ăn hay nước uống</Text>
+                    <AntDesign name="search1" size={ 24 } color={ 'gray' } />
                 </TouchableOpacity>
             </View>
 
@@ -69,8 +67,10 @@ const ProductScreen = () =>
                     </TouchableOpacity>
                 ) ) }
             </View>
-            <Text>Product</Text>
-            <ScrollView horizontal={ false } style={ style.scrollContainer } showsHorizontalScrollIndicator={ false }>
+            <Text>Danh sách sản phẩm</Text>
+            <ScrollView
+                contentContainerStyle={ style.scrollContainer }
+                showsVerticalScrollIndicator={ false }>
                 { filteredProducts.map( ( product ) => (
                     <TouchableOpacity key={ product._id } style={ style.productContainer } onPress={ () => navigation.navigate( "detail", { _id: product._id } ) }>
                         <View style={ { flexDirection: "row" } }>
@@ -78,7 +78,7 @@ const ProductScreen = () =>
                             <View style={ style.titleItem }>
                                 <View style={ style.titleName }>
                                     <Text style={ style.productName }>{ product.name }</Text>
-                                    <Text>Mô tả: { product.description }</Text>
+                                    {/* <Text>Mô tả: { product.description }</Text> */}
                                 </View>
                             </View>
                         </View>
@@ -118,12 +118,13 @@ const style = StyleSheet.create( {
         color: '#333',
     },
     scrollContainer: {
+        paddingBottom: 20,
         padding: 10,
         borderWidth: 1,
         borderColor: "blue",
-    },
+    },  
     productContainer: {
-        // width: 100, // Đặt kích thước cho mỗi sản phẩm
+
         flexDirection: 'row',
         marginVertical: 10,
         borderWidth: 1,
@@ -162,6 +163,16 @@ const style = StyleSheet.create( {
         justifyContent: 'space-around',
         borderWidth: 1,
         borderColor: 'red',
+    },
+    headerSearch: {
+        margin: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderRadius: 40,
+        borderColor: 'gray',
+        // flex: 1,
+        paddingHorizontal: 8,
     },
 
 } );

@@ -68,7 +68,7 @@ const CheckoutScreen = () =>
                     .then( ( response ) =>
                     {
                         setCartItems( response.data.items );
-                        
+
                         console.log( "active: ", response.data.items );
                     } )
                     .catch( ( error ) =>
@@ -78,6 +78,18 @@ const CheckoutScreen = () =>
             }
         }, [ userId ]
         ) );
+
+    useFocusEffect(
+        useCallback( () =>
+        {
+            navigation.getParent()?.setOptions( { tabBarStyle: { display: 'none' } } ); // Ẩn TabBar
+
+            return () =>
+            {
+                navigation.getParent()?.setOptions( { tabBarStyle: { display: 'flex' } } ); // Hiển thị lại TabBar khi rời khỏi màn hình
+            };
+        }, [ navigation ] )
+    );
 
     const totalAmount = cartItems.reduce( ( total, item ) => total + ( product.find( ( x ) => x._id === item.productId )?.price || 0 ) * item.quantity, 0 );
     useEffect( () =>
@@ -127,9 +139,9 @@ const CheckoutScreen = () =>
                 <View style={ styles.adress }>
                     <Text style={ styles.bodyTitle }>Địa chỉ giao hàng</Text>
                     <TextInput style={ styles.inputAddress } value={ address } placeholder='Địa chỉ' onChangeText={ setAddress } />
-                    
+
                     <Text style={ styles.bodyTitle }>Ngày đặt hàng</Text>
-                    {/* <Text></Text> */}
+                    {/* <Text></Text> */ }
                 </View>
 
 
@@ -156,7 +168,7 @@ const CheckoutScreen = () =>
                         <Text style={ styles.bodyTitle }>Tổng cộng</Text>
                         <View style={ { flexDirection: "row", justifyContent: "space-between", paddingVertical: 15, borderBottomWidth: 1, borderColor: '#dcdcdc' } }>
                             <Text>Thành tiền</Text>
-                            <Text>{totalAmount} VND</Text>
+                            <Text>{ totalAmount } VND</Text>
                         </View>
                         <View style={ { flexDirection: "row", justifyContent: "space-between", paddingVertical: 15, borderBottomWidth: 1, borderColor: '#dcdcdc' } }>
                             <Text>Mã giảm giá</Text>
@@ -164,7 +176,7 @@ const CheckoutScreen = () =>
                         </View>
                         <View style={ { flexDirection: "row", justifyContent: "space-between", paddingVertical: 15 } }>
                             <Text>Số tiền thanh toán</Text>
-                            <Text>{totalAmount} VND</Text>
+                            <Text>{ totalAmount } VND</Text>
                         </View>
                     </View>
                 </View>
@@ -346,7 +358,7 @@ const styles = StyleSheet.create( {
         backgroundColor: 'white',
         padding: 10,
         marginVertical: 10,
-    },  
+    },
 } );
 
 export default CheckoutScreen;
